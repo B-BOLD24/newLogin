@@ -1,0 +1,85 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+
+// Function to check if a string is a palindrome using a stack
+bool isPalindrome(const string &str) {
+    stack<char> s;
+
+    // Push all characters of the string onto the stack
+    for (size_t i = 0; i < str.length(); i++) {
+        s.push(str[i]);
+    }
+
+    // Create a reversed string by popping characters from the stack
+    string reversed = "";
+    while (!s.empty()) {
+        reversed += s.top();
+        s.pop();
+    }
+
+    // Compare the original string with the reversed string
+    for (size_t i = 0; i < str.length(); i++) {
+        if (str[i] != reversed[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// Function to preprocess a string: remove spaces, punctuation, and convert to lowercase
+string preprocess(const string &str) {
+    string cleaned = "";
+    for (int i = 0; i < str.length(); i++) {
+        char ch = str[i];
+        // Check if the character is alphanumeric
+        if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9')) {
+            // Convert to lowercase manually
+            if (ch >= 'A' && ch <= 'Z') {
+                ch = ch + ('a' - 'A');
+            }
+            cleaned += ch;
+        }
+    }
+    return cleaned;
+}
+
+// Function to print a string in reverse order using a stack
+void printReverse(const string &str) {
+    stack<char> s;
+
+    // Push all characters of the string onto the stack
+    for (size_t i = 0; i < str.length(); i++) {
+        s.push(str[i]);
+    }
+
+    // Pop characters from the stack to print them in reverse order
+    while (!s.empty()) {
+        cout << s.top();
+        s.pop();
+    }
+    cout << endl;
+}
+
+int main() {
+    string input;
+
+    cout << "Enter a string: ";
+    getline(cin, input);
+
+    // Preprocess the string
+    string cleanedInput = preprocess(input);
+
+    // Check if the cleaned string is a palindrome
+    if (isPalindrome(cleanedInput)) {
+        cout << "The string is a palindrome." << endl;
+    } else {
+        cout << "The string is not a palindrome." << endl;
+    }
+
+    // Print the original string in reverse order
+    cout << "The reverse of the original string is: ";
+    printReverse(input);
+
+    return 0;
+}
