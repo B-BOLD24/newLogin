@@ -1,0 +1,38 @@
+def binary_search_recursive(phonebook, target_name, low, high):
+    if low > high:
+        return -1  # Not found
+    
+    mid = (low + high) // 2
+    if phonebook[mid][0] == target_name:
+        return mid  # Found
+    elif phonebook[mid][0] > target_name:
+        return binary_search_recursive(phonebook, target_name, low, mid - 1)
+    else:
+        return binary_search_recursive(phonebook, target_name, mid + 1, high)
+    
+def binary_search_non_recursive(phonebook, target_name):
+    low, high = 0, len(phonebook) - 1
+    while low <= high:
+        mid = (low + high) // 2
+        if phonebook[mid][0] == target_name:
+            return mid  # Found
+        elif phonebook[mid][0] > target_name:
+            high = mid - 1
+        else:
+            low = mid + 1
+    return -1
+
+def insert_friend(phonebook, name, mobile_number):
+    # Perform binary search to check if friend exists
+    if binary_search_non_recursive(phonebook, name) == -1:
+        # Insert friend in the sorted order
+        phonebook.append((name, mobile_number))
+        phonebook.sort(key=lambda x: x[0])  # Sort by name
+        print(f"Friend {name} added successfully!")
+    else:
+        print(f"{name} is already in the phonebook.")
+
+phonebook = [("Alice", "1234567890"), ("Bob", "9876543210"), ("Charlie", "1122334455")]
+print("Phonebook (before insertion):")
+for name, number in phonebook:
+    print(f"{name}: {number}")
